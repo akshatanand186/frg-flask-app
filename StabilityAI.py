@@ -6,11 +6,11 @@ from PIL import Image
 from io import BytesIO
 
 class StableDiffusion:
-    def __init__(self, api_key_file_path):
+    def __init__(self):
         self.api_key = None
         self.api_host = 'https://api.stability.ai'
 
-        self.get_api_key(api_key_file_path)
+        self.api_key = 'sk-tf6TbvxUnE1x55u3KX6htHsUd9iOnjvIuDNBpRHdytpHgshB'
 
         # self.engine_id = "stable-diffusion-xl-1024-v1-0"
         self.engine_id = "stable-diffusion-512-v2-0"
@@ -18,20 +18,19 @@ class StableDiffusion:
         self.image_size = (512, 512)
 
         self.prompt_raw = """Show me a garment with the following properties,
-it should be for a %s person who is %s. It should adhere to %s clothing style
-It must be fit for wearing in %s season and it should include %s colour
-Other than this, adhere to the below prompt to further customize the garment
+it should be for a %s person. It should adhere to %s clothing style
+It should include %s colour.Other than this, adhere to the below prompt to further customize the garment
 
-%s""" #gender, age group, type, season, colour, prompt
-
+%s""" #gender, type, color, prompt
 
 
-    def get_api_key(self, file_path):
-        try:
-            with open(file_path, 'r') as api_key_file:
-                self.api_key = api_key_file.readline()
-        except FileNotFoundError:
-            raise Exception(f"Stability API key file doesnt exist at {file_path}")
+
+    # def get_api_key(self, file_path):
+    #     try:
+    #         with open(file_path, 'r') as api_key_file:
+    #             self.api_key = api_key_file.readline()
+    #     except FileNotFoundError:
+    #         raise Exception(f"Stability API key file doesnt exist at {file_path}")
 
 
     def request_trend(self, prompt, user_id, user_preferance, image_url, strength=0.3):
