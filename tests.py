@@ -1,5 +1,6 @@
 import unittest
 from flask_app import app
+from database import MongoInstance
 
 class TestApp(unittest.TestCase):
     def setUp(self):
@@ -20,6 +21,18 @@ class TestApp(unittest.TestCase):
         response = self.app.get('/search?search_string=hello')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json['search_string'], 'hello')
+
+class TestMongo(unittest.TestCase):
+    def setUp(self):
+        self.db = MongoInstance().db
+    
+    def test_add_user(self):
+        user = {
+            "_id": "test_user",
+            "name": "Test User",
+            "email": "asgdqasg"
+        }
+        self.db.users.insert_one(user)
 
 if __name__ == '__main__':
     unittest.main()

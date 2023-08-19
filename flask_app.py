@@ -1,13 +1,16 @@
 # Using flask to make an api
 # import necessary libraries and functions
-from flask import Flask, jsonify, request
+from flask import Flask, request
+from bson import ObjectId
+import json
 from database import MongoInstance
+import crud
+import config
 
 # creating a Flask app
 app = Flask(__name__)
-
-# connect to database (make sure the database is created)
-test_db = MongoInstance('localhost', 27017).get_db_instance('test_db')
+db = MongoInstance(uri = config.mongo_uri, db_name=config.db_name).db
+fashion_cache = {}
 
 # create a route for '/add-convo' endpoint
 @app.route('/add-convo', methods=['POST'])
@@ -30,6 +33,14 @@ def search():
     # TODO: fetch user data and send along with the response to the correlation engine
     # TODO: get response from correlation engine
     pass
+
+#endpoint to get fashion by id
+@app.route('/fashion/<id>', methods=['GET'])
+def get_fashion_by_id(id):
+    if id in fashion_cache.keys():
+        return fashion_cache[id]
+    fashion_cache[id] = crud.get_fashion(db, id)
+    return fashion_cache[id]
 
 # add hello world endpoint
 @app.route('/')
