@@ -25,6 +25,15 @@ def get_user( db, user_id: str):
     
     return user
 
+def get_user_by_username(db, username: str):
+    try:
+        user = db.users.find_one( { "username": username })
+    except:
+        print( "Failed to get user")
+        raise Exception( "Failed to get user")
+    
+    return user
+
 def get_all_users( db):
     try:
         users = db.users.find()
@@ -37,6 +46,15 @@ def get_all_users( db):
 def update_user( db, user_id: str, user: dict):
     try:
         db.users.update_one( { "_id": user_id }, { "$set": user })
+    except:
+        print( "Failed to update user")
+        raise Exception( "Failed to update user")
+    
+    return True
+
+def update_user_by_username( db, username: str, user: dict):
+    try:
+        db.users.update_one( { "username": username }, { "$set": user })
     except:
         print( "Failed to update user")
         raise Exception( "Failed to update user")
