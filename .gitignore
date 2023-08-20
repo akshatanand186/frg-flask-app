@@ -1,9 +1,9 @@
 # config file
 config.py
 
-# data
-
-data/
+# csv and model files
+*.csv
+*.joblib
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

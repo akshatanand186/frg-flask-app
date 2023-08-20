@@ -2,8 +2,6 @@
 # import necessary libraries and functions
 from flask import Flask, request
 from flask_cors import CORS
-from bson import ObjectId
-import json
 from database import MongoInstance
 import crud
 import config
