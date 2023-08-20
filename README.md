@@ -22,7 +22,7 @@ These instructions will help you set up and run the Flask API on your local mach
 2. Navigate to project directory
 
    ```bash
-   cd fashion-recommendation-api
+   cd frg-flask-app
    ```
 
 3. Create a virtual environment
