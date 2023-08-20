@@ -89,4 +89,10 @@ def get_multiple_fashion(db, user_ids: list):
         print( "Failed to get fashion")
         raise Exception( "Failed to get fashion")
     
-    return fashion
+    f_list = []
+
+    for doc in fashion:
+
+        f_list.append( format(doc) )
+    
+    return f_list

@@ -81,12 +81,13 @@ class QueryToJsonConverter:
             'usage': None
         }
 
+        print(response)
         # Custom logic to parse the response and extract category information
         # You might need to use regular expressions or other methods here
         
         return json_dict
 
-openai_api_key = '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'
+openai_api_key = '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'
 
 # Create an instance of the QueryToJsonConverter
 converter = QueryToJsonConverter()

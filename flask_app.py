@@ -1,10 +1,11 @@
 # Using flask to make an api
 # import necessary libraries and functions
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_cors import CORS
 from database import MongoInstance
 import crud
 import config
+import json
 from utils import QueryToJson
 from model import ClusteringModel
 
@@ -51,14 +52,17 @@ def get_fashion_by_id(id):
 
 #endpoint to get queries
 @app.route('/query', methods=['POST'])
-def get_matches(query_str):
+def get_matches():
     data = request.json
     
     query_str = data['query_str']
     query_json = query_processor.get_json_by_fuzzy_wuzzy(query_str)
-
+    print('Query JSON:', query_json)
     user_dat = crud.get_user_by_username(db, data['username'])
 
+    id_list = None
+
+    print('User: ', user_dat)
     if user_dat is None:
         # Create new user
         user_dat = {
@@ -66,13 +70,17 @@ def get_matches(query_str):
             "preference": query_json
         }
 
+        # add to db
+        crud.add_user(db, user_dat)
+
+        print('User Data: ', user_dat)
+
         #search the data for this
         id_list = clustering.predict(query_json)
-        return id_list
     
     else:
         merged_dict = query_processor.merge_json( query_json, user_dat['preference'])
-
+        print('Merged Data: ', merged_dict)
         #set data to user
         new_user = {
             "username": data['username'],
@@ -84,9 +92,12 @@ def get_matches(query_str):
 
         #search the data for this
         id_list = clustering.predict(merged_dict)
-        return id_list
 
+    item_list = crud.get_multiple_fashion(db, id_list)
+    return item_list
+
+    
 # add hello world endpoint
 @app.route('/')
-def hello_world():
-    return 'Hello World!'
+def home():
+    return render_template("index.html")
