@@ -43,6 +43,8 @@ These instructions will help you set up and run the Flask API on your local mach
    pip install -r requirements.txt
    ```
 
+#### Note: The server won't work without the compiled models, so if you want the csv data, please write to 20cs01043@iitbbs.ac.in
+
 ### Endpoints
 
 - GET /: Home page of the API. [beta]
